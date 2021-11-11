@@ -1,0 +1,28 @@
+# maven ignore
+target/
+*.jar
+!.mvn/wrapper/*
+*.war
+*.zip
+*.tar
+*.tar.gz
+.flattened-pom.xml
+
+# eclipse ignore
+.settings/
+.project
+.classpath
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+
+# system ignore
+.DS_Store
+Thumbs.db
+*.orig
+*/*/.mvn/
+*/.mvn/
