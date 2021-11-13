@@ -1,6 +1,7 @@
 package com.example.rpc.example.spring;
 
 import com.example.rpc.example.spring.annotation.AbstractAnnotationBeanPostProcessor;
+import com.example.rpc.example.spring.annotation.RpcRef;
 import com.example.rpc.example.spring.bean.RpcRefBean;
 import com.example.rpc.example.spring.util.AnnotationUtils;
 import org.springframework.beans.BeansException;
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationAttributes;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -25,6 +27,10 @@ public class RpcAnnotationBeanPostProcessor extends AbstractAnnotationBeanPostPr
 
     private final ConcurrentMap<String, RpcRefBean<?>> referenceBeanCache =
             new ConcurrentHashMap<>(CACHE_SIZE);
+
+    public RpcAnnotationBeanPostProcessor() {
+        super(RpcRef.class);
+    }
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

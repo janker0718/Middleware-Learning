@@ -7,6 +7,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class RpcRefBean<T> implements FactoryBean,
         ApplicationContextAware, InitializingBean, DisposableBean {
     protected Boolean init;
@@ -15,6 +18,8 @@ public class RpcRefBean<T> implements FactoryBean,
 
 
     private transient volatile boolean destroyed;
+
+    private transient volatile boolean initialized;
 
     @Override
     public void destroy() throws Exception {
@@ -37,7 +42,12 @@ public class RpcRefBean<T> implements FactoryBean,
     }
 
     private void init() {
+        if (initialized) {
+            return;
+        }
+        Map<String, String> map = new HashMap<String, String>();
         //创建动态代理对象
+//        ref = createProxy(map);
     }
 
     @Override

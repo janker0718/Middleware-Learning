@@ -1,13 +1,13 @@
 package com.example.rpc.example.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.CharsetUtil;
 
 public class NettyServer {
     public static void main(String[] args) throws Exception {
@@ -17,10 +17,9 @@ public class NettyServer {
         try {
             //创建服务器端的启动对象
             ServerBootstrap bootstrap = new ServerBootstrap();
-            //使用链式编程来配置参数
+            //使用链式编程来配置参数 //设置两个线程组
             bootstrap.group(bossGroup, workerGroup)
-            //设置两个线程组
-                    .channel(NioServerSocketChannel.class)
+            .channel(NioServerSocketChannel.class)
             // 使用NioServerSocketChannel作为服务器的通道实现
             // 初始化服务器连接队列大小，服务端处理客户端连接请求是顺序处理的,所以同一时间只能处理一个客户端连接。
                     // 多个客户端同时来的时候,服务端将不能处理的客户端连接请求放在队列中等待处理
@@ -55,5 +54,51 @@ public class NettyServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+}
+
+/**
+ * 自定义Handler需要继承netty规定好的某个HandlerAdapter(规范)
+ */
+class NettyServerHandler extends ChannelInboundHandlerAdapter {
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     */
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("服务器读取线程 " + Thread.currentThread().getName());
+        //Channel channel = ctx.channel();
+        //ChannelPipeline pipeline = ctx.pipeline(); //本质是一个双向链接, 出站入站
+        //将 msg 转成一个 ByteBuf，类似NIO 的 ByteBuffer
+        ByteBuf buf = (ByteBuf) msg;
+        System.out.println("客户端发送消息是:" + buf.toString(CharsetUtil.UTF_8));
+    }
+    /**
+     * 数据读取完毕处理方法
+     *
+     * @param ctx
+     * @throws Exception
+     */
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        ByteBuf buf = Unpooled.copiedBuffer("HelloClient", CharsetUtil.UTF_8);
+        ctx.writeAndFlush(buf);
+    }
+
+    /**
+     *
+     *
+     *
+     *
+     *
+     */
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        ctx.close();
     }
 }

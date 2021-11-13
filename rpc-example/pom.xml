@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.janker</groupId>
-    <artifactId>Rpc-Example</artifactId>
+    <artifactId>rpc-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Rpc-Example</name>
-    <description>Rpc-Example</description>
+    <name>rpc-example</name>
+    <description>rpc-example</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -34,6 +34,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
