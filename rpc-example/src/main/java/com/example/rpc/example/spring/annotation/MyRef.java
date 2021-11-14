@@ -5,6 +5,11 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
-public @interface RpcService {
+public @interface MyRef {
 
+    //分组
+    String group() default "";
+
+    //版本
+    String version() default "";
 }
