@@ -6,7 +6,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PersonService implements BeanFactoryAware {
+public class TestService implements BeanFactoryAware {
     private BeanFactory beanFactory;
 
     @Override
